@@ -18,6 +18,7 @@ package com.github.iliaevg.dependencyresearcher;
 import com.github.iliaevg.dependencyresearcher.exception.DependencyResearcherException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -174,9 +175,11 @@ public class DependencyResearcher {
 
     public static String getDependencyCyclesPrintView(List<DependencyChain> dependencyCycles) {
 
+        List<DependencyChain> cyclesToPrint = new ArrayList<>(dependencyCycles);
+        Collections.sort(cyclesToPrint);
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (DependencyChain dependencyCycle : dependencyCycles) {
+        for (DependencyChain dependencyCycle : cyclesToPrint) {
             stringBuilder.append(dependencyCycle.formattedView());
             stringBuilder.append("\n");
         }

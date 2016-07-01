@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author iliaevg
  */
-public interface DependencyChain extends Iterable<Entity> {
+public interface DependencyChain extends Iterable<Entity>, Comparable<DependencyChain> {
 
     /**
      * Добавляет к цепочке зависимостей следующее звено
@@ -41,7 +41,7 @@ public interface DependencyChain extends Iterable<Entity> {
      * Определяет, есть ли в цепочке подциклы
      */
     boolean containSubCycles();
-
+    
     String formattedView();
 
     /**
@@ -63,5 +63,5 @@ public interface DependencyChain extends Iterable<Entity> {
      * Возвращает цепочку зависимостей в виде списка сущностейЫ
      */
     List<Entity> getListValue();
-
+    
 }

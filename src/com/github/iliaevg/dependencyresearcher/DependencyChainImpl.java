@@ -146,11 +146,11 @@ public class DependencyChainImpl implements DependencyChain {
         //Проверяем все подпоследовательноти всех длин начиная от длины 2
         for (int sequenceLenght = 2; sequenceLenght < value.size(); sequenceLenght++) {
 
-            for (int baseSequenceIndex = 0; baseSequenceIndex < value.size() - sequenceLenght * 2; baseSequenceIndex++) {
+            for (int baseSequenceIndex = 0; baseSequenceIndex < value.size() - sequenceLenght * 2 + 1; baseSequenceIndex++) {
 
                 List<Entity> baseSequence = value.subList(baseSequenceIndex, baseSequenceIndex + sequenceLenght);
 
-                int matchedSequenceIndex = baseSequenceIndex + sequenceLenght + 1;
+                int matchedSequenceIndex = baseSequenceIndex + sequenceLenght;
                 List<Entity> matchedSequence = value
                         .subList(matchedSequenceIndex, matchedSequenceIndex + sequenceLenght);
 
@@ -185,15 +185,33 @@ public class DependencyChainImpl implements DependencyChain {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof DependencyChainImpl) {
-            DependencyChainImpl comparable = (DependencyChainImpl) obj;
+        if (obj instanceof DependencyChain) {
+            DependencyChain comparable = (DependencyChain) obj;
 
-            if (value.equals(comparable.value)) {
+            if (value.equals(comparable.getListValue())) {
                 return true;
             }
 
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(DependencyChain comparable) {
+        int compareResult = value.size() - comparable.size();
+        if (compareResult != 0) {
+            return compareResult;
+        } else {
+            Iterator<Entity> comparableIterator = comparable.iterator();
+            for (Entity entity : this) {
+                Entity comparableEntity = comparableIterator.next();
+                compareResult = entity.getId() - comparableEntity.getId();
+                if (compareResult != 0) {
+                    return compareResult;
+                }
+            }
+        }
+        return 0;
     }
 
     @Override
